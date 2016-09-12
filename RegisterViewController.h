@@ -1,0 +1,21 @@
+//
+//  RegisterViewController.h
+//  loginapp
+//
+//  Created by Mihaela Pacalau on 9/2/16.
+//  Copyright © 2016 Marcel Spinu. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface RegisterViewController : UIViewController <UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *lastNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UITextField *dateOfBirthTextField;
+@property (weak, nonatomic) IBOutlet UITextField *genderTextField;
+
+
+@end
