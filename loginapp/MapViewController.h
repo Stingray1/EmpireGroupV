@@ -8,18 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-
+#import "MapData.h"
+#import "TimeLineTableViewController.h"
 @class MKMapView;
 @class MKUserLocation;
 
 @interface MapViewController : UIViewController
 
+@property (strong,nonatomic) MKPointAnnotation* pointAnnotation;
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
-
-@property (strong, nonatomic) CLLocationManager* locationManager;
 @property (strong, nonatomic) UIView* subview;
-@property (strong, nonatomic) MKUserLocation* userLocation;
 @property (strong, nonatomic) UITextView* textView ;
-@property (assign, nonatomic) CLLocationCoordinate2D touchMapCoordinate;
+@property (strong,nonatomic) MapData * mapData;
+@property (strong,nonatomic) NSString *text;
+
+
+- (void) buildPathAction;
 
 @end

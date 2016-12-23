@@ -7,13 +7,14 @@
 //
 
 #import "RegisterViewController.h"
+#import "LoginViewController.h"
 
 @interface RegisterViewController () <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
     
     UIDatePicker* datePicker;
-    
     UIPickerView* genderPickerView;
     NSMutableArray* genderPickerViewData;
+    UITextField* activeField;
 }
 
 @end
@@ -37,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setTextFieldTag];
+    [self.navigationController setNavigationBarHidden:YES];
     genderPickerView = [[UIPickerView alloc] init];
     genderPickerView.delegate = self;
     genderPickerViewData = [[NSMutableArray alloc] initWithObjects:@"Male", @"Female", @"It's complicated", nil];
@@ -73,8 +76,18 @@
     
     
 }
-
-
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+-(void)setTextFieldTag
+{
+    self.firstNameTextField.tag =1;
+    self.lastNameTextField.tag=2;
+    self.emailTextField.tag=3;
+    self.passwordTextField.tag=4;
+    self.confirmPassword.tag=5;
+}
 - (void)updateTextFieldAction:(id) sender {
 
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
@@ -117,36 +130,38 @@
 
 
 ///////////////////////////////////////////////////////////
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    return YES;
-}
-
-
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
-    
-    [self.view endEditing:YES];
-    return YES;
-}
-
-
-- (void)keyboardDidShow:(NSNotification *)notification
-{
-    // Assign new frame to your view
-    [self.view setFrame:CGRectMake(0,-110,420,520)]; //here taken -110 for example i.e. your view will be scrolled to -110. change its value according to your requirement.
-    
-}
-
--(void)keyboardDidHide:(NSNotification *)notification
-{
-    [self.view setFrame:CGRectMake(0,0,420,670)];
-}
 ///////////////////////////////////////////////////////////
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    activeField = textField;
+    [self.scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+}
+
+
+// called when click on the retun button.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSInteger nextTag = textField.tag + 1;
+    // Try to find next responder
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    
+    if (nextResponder) {
+        [self.scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+    } else {
+        [self.scrollView setContentOffset:CGPointMake(0,_scrollView.center.y) animated:YES];
+        [textField resignFirstResponder];
+        
+        return YES;
+    }
+    
+    return NO;
 }
 
 /*
@@ -159,4 +174,10 @@
 }
 */
 
+- (IBAction)RegisterButton:(id)sender {
+    
+    LoginViewController *loginView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    [self presentViewController:loginView animated:YES completion:nil];
+    
+}
 @end
