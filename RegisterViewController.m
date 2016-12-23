@@ -15,6 +15,7 @@
     UIPickerView* genderPickerView;
     NSMutableArray* genderPickerViewData;
     UITextField* activeField;
+    CAGradientLayer *gradientLayer;
 }
 
 @end
@@ -39,7 +40,7 @@
     [super viewDidLoad];
     
     [self setTextFieldTag];
-    [self.navigationController setNavigationBarHidden:YES];
+    [self designSketch];
     genderPickerView = [[UIPickerView alloc] init];
     genderPickerView.delegate = self;
     genderPickerViewData = [[NSMutableArray alloc] initWithObjects:@"Male", @"Female", @"It's complicated", nil];
@@ -76,6 +77,32 @@
     
     
 }
+
+-(void)viewDidLayoutSubviews
+{
+    gradientLayer.frame = self.singUPImage.bounds;
+    
+}
+-(void)designSketch
+{
+    gradientLayer =[CAGradientLayer layer];
+    gradientLayer.colors = @[(id)[[UIColor colorWithRed:(151/255.0) green:(157/255.0) blue:(183/255.0) alpha:0.9] CGColor],
+                             (id)[[UIColor colorWithRed:(146/255.0) green:(159/255.0) blue:(182/255.0) alpha:0.9] CGColor],
+                             (id)[[UIColor colorWithRed:(145/255.0) green:(170/255.0) blue:(194/255.0) alpha:0.9] CGColor]];
+    [self.singUPImage.layer addSublayer:gradientLayer];
+    self.cornerRadiusView.layer.cornerRadius = 7;
+    self.firstNameTextField.layer.cornerRadius = 7;
+    self.lastNameTextField.layer.cornerRadius = 7;
+    self.emailTextField.layer.cornerRadius = 7;
+    self.passwordTextField.layer.cornerRadius = 7;
+    self.confirmPassword.layer.cornerRadius = 7;
+    self.dateOfBirthTextField.layer.cornerRadius = 7;
+    self.genderTextField.layer.cornerRadius = 7;
+    self.signUPButton.layer.cornerRadius = 7;
+    
+
+}
+
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;

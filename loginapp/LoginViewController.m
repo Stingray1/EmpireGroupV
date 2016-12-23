@@ -97,7 +97,7 @@ CAGradientLayer *gradientLayer;
 - (IBAction)registerButtonAction:(UIButton *)sender {
     
     RegisterViewController *registerView = [self.storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
-    [self.navigationController pushViewController:registerView animated:YES];
+    [self presentViewController:registerView animated:YES completion:nil];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
